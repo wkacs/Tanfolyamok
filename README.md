@@ -2,7 +2,7 @@
 Tanfolyamok projektmunka Andorfer Vendel, Babai Máté, Varga Mátyás
 
 
-#Hogy inditsd el
+# Hogy inditsd el
 1. Hozz létre egy .env fájlt a gyökérkönyvtárban a következő tartalommal
 ```env
    ADMIN="bcrypt_hash_az_admin_jelszohoz"
