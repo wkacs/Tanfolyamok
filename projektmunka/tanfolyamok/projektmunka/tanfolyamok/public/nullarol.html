@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Digitális alapok – Teljesen nulláról</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4ade80;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 3rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header h2 {
+            font-weight: 300;
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            padding: 0.5rem 0;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            padding: 1rem 1.5rem !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transition: width 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .course-card img {
+            border-radius: 15px;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .course-card h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+
+        .course-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .course-card ul {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .course-card a {
+            display: inline-block;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .course-card a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .table-container h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .table thead th {
+            border: none;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+
+        .table tbody td {
+            padding: 1rem;
+            border-color: #e5e7eb;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-container h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-check-input {
+            width: 1.3rem;
+            height: 1.3rem;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .form-check-label {
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 3rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .text-danger {
+            color: #ef4444 !important;
+            font-weight: 500;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--text-dark) 0%, #374151 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        .admin-login {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            max-width: 500px;
+        }
+
+        .admin-login label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .admin-login input {
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 0.8rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+
+        .admin-login button {
+            background: linear-gradient(135deg, var(--text-dark), #374151);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.7rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .admin-login button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header h2 {
+                font-size: 1rem;
+            }
+
+            .course-card {
+                padding: 1.5rem;
+            }
+
+            .course-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="text-center text-light">
+    <h1>Digitális alapok</h1>
+    <h2>Teljesen nulláról</h2>
+</header>
+
+<div class="container my-5">
+    <div class="course-card">
+        <h3>A tanfolyam célja</h3>
+        <p>
+            Ez a képzés azoknak készült, akik eddig bizonytalanul mozogtak a digitális világban,
+            vagy teljesen kimaradtak belőle. Nem feltételez semmilyen előzetes tudást.
+            Lépésről lépésre, emberi nyelven tanítja meg a digitális eszközök használatát.
+        </p>
+
+        <p>
+            A tanfolyam végére a résztvevők képesek lesznek önállóan kezelni számítógépet,
+            okostelefont, eligazodni az interneten, e-mailezni, online ügyeket intézni
+            és felismerni az alapvető online veszélyeket.
+        </p>
+
+        <h3>Követelmények</h3>
+        <ul>
+            <li>Betöltött 18. életév</li>
+            <li>Alap szintű olvasási és szövegértési készség</li>
+            <li>Saját okostelefon vagy laptop (nem kötelező, de ajánlott)</li>
+            <li>Nyitottság a tanulásra</li>
+        </ul>
+
+        <h3>Mit fogsz megtanulni?</h3>
+        <p>
+            Megismerkedsz a számítógép felépítésével, fájlkezeléssel, internetes böngészéssel,
+            e-mail használattal, alapvető online szolgáltatásokkal, ügyfélkapu-szerű rendszerekkel,
+            valamint a digitális kommunikáció alapjaival.
+        </p>
+
+        <p>
+            Kiemelt figyelmet kap a biztonság: jelszavak kezelése, adatok védelme,
+            alapvető csalások felismerése.
+        </p>
+
+        <a href="index.html#jelentkezes">Vissza a jelentkezéshez</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanfolyamok</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4ade80;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 3rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header h2 {
+            font-weight: 300;
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            padding: 0.5rem 0;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            padding: 1rem 1.5rem !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transition: width 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .course-card img {
+            border-radius: 15px;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .course-card h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+
+        .course-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .course-card ul {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .course-card a {
+            display: inline-block;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 0.7rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .course-card a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .table-container h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .table thead th {
+            border: none;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+
+        .table tbody td {
+            padding: 1rem;
+            border-color: #e5e7eb;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-container h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-check-input {
+            width: 1.3rem;
+            height: 1.3rem;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .form-check-label {
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 3rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .text-danger {
+            color: #ef4444 !important;
+            font-weight: 500;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--text-dark) 0%, #374151 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        .admin-login {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            max-width: 500px;
+        }
+
+        .admin-login label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .admin-login input {
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 0.8rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+
+        .admin-login button {
+            background: linear-gradient(135deg, var(--text-dark), #374151);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.7rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .admin-login button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header h2 {
+                font-size: 1rem;
+            }
+
+            .course-card {
+                padding: 1.5rem;
+            }
+
+            .course-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="text-center text-light">
+        <h1>Pogány Frigyes Technikum</h1>
+        <h2>Esti és hétvégi képzések</h2>
+    </header>
+
+    <nav class="navbar navbar-expand-md navbar-light sticky-top">
+        <div class="container">
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menu">
+                <div class="navbar-nav mx-auto">
+                    <a class="nav-link" href="#nullarol">Nulláról</a>
+                    <a class="nav-link" href="#mindennapi">Mindennapi használat</a>
+                    <a class="nav-link" href="#biztonsagos">Biztonságos net</a>
+                    <a class="nav-link" href="#jelentkezes">Jelentkezés</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row" id="nullarol">
+            <div class="col-12">
+                <div class="course-card">
+                    <div class="row align-items-center">
+                        <div class="col-lg-5">
+                            <img src="img/nullarol.jpg" alt="nullarol">
+                           <ul>
+                                <li>Picture by Freepik</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-7">
+                            <h3>Digitális alapok Teljesen nulláról</h3>
+                            <p>Ez a tanfolyam azoknak szól, akik szeretnék magabiztosan használni a digitális világ eszközeit, de eddig kevés tapasztalatuk volt.
+                                 A képzés során megismerkedsz a számítógépek és okoseszközök alapjaival, az internet biztonságos használatával, az e-mail, 
+                                 közösségi média és online kommunikáció alapjaival, valamint az alapvető irodai szoftverekkel.
+                                A tanfolyam célja, hogy a résztvevők a végére önállóan és biztonságosan tudjanak eligazodni a digitális térben,
+                                 kezelni az eszközöket, és magabiztosan használni az online szolgáltatásokat mindennapi életben és munkában egyaránt.
+                            </p>
+                             <ul>
+                                <li>Internet, böngészés, e-mail</li>
+                                <li>Fiókok, jelszavak</li>
+                                <li>Online ügyintézés alapjai</li>
+                            </ul>
+                            <a href="nullarol.html" class="mt-3">Részletek & követelmények</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="mindennapi">
+            <div class="col-12">
+                <div class="course-card">
+                    <div class="row align-items-center">
+                        <div class="col-lg-7 order-lg-1">
+                            <h3>Digitális alapok Mindennapi interet használat</h3>
+                            <p>Ez a tanfolyam segít abban, hogy az internetet magabiztosan és biztonságosan tudd használni a mindennapokban. Megtanulod a keresők, online banki és vásárlási felületek, e-mailezés, közösségi oldalak és videóplatformok alapjait, valamint az online biztonság és adatvédelem legfontosabb szabályait.
+                                A képzés végére képes leszel önállóan eligazodni az online világban, hatékonyan kommunikálni és használni az internetet mindennapi teendőidhez, anélkül, hogy eltévednél a digitális térben.</p>
+                            </p>
+                             <ul>
+                                <li>Telefon és laptop együtt</li>
+                                <li>Fájlok, fotók, felhő</li>
+                                <li>Hasznos alkalmazások</li>
+                            </ul>
+                            <a href="mindennapi.html" class="mt-3">Részletek & követelmények</a>
+                        </div>
+                        <div class="col-lg-5 order-lg-2">
+                            <img src="img/mindennapi.jpg" alt="mindennapi">
+                            <ul>
+                                <li>Picture by Freepik</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="biztonsagos">
+            <div class="col-12">
+                <div class="course-card">
+                    <div class="row align-items-center">
+                        <div class="col-lg-5">
+                            <img src="img/biztonsag.jpg" alt="biztonsag">
+                            <ul>
+                                <li>Picture by Freepik</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-7">
+                            <h3>Digitális alapok Tudatos és biztonságos internet</h3>
+                            <p>Ez a tanfolyam azoknak szól, akik szeretnének tudatosan és biztonságosan mozogni az online világban. Megtanulod felismerni a veszélyeket, kezelni a jelszavakat, adatokat védelmezni, elkerülni a csalásokat és biztonságosan használni a közösségi médiát és egyéb online szolgáltatásokat.
+                                A képzés végére képes leszel az internetet felelősen használni, okosan dönteni az online tartalmakkal kapcsolatban, és megőrizni a digitális biztonságodat a mindennapokban
+                            <p>A fentieken felül:</p>
+                            <ul>
+                                <li>Scam-ek felismerése</li>
+                                <li>Adatvédelem, 2FA</li>
+                                <li>Tudatos internethasználat</li>
+                            </ul>
+                            <a href="biztonsagos.html" class="mt-3">Részletek & követelmények</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="jelentkezes">
+            <div class="table-container">
+                <h3>Induló csoportok</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody id="csoportok">
+                            <!-- csoportok adatai -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <h3>Jelentkezés</h3>
+                <form>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label for="csid" class="form-label">Csoport azonosítója*</label>
+                            <input type="number" id="csid" name="csid" class="form-control">
+                            
+                            <label for="jnev" class="form-label">Név*</label>
+                            <input type="text" id="jnev" name="jnev" class="form-control">
+                            
+                            <label for="szulnev" class="form-label">Születési név</label>
+                            <input type="text" id="szulnev" name="szulnev" class="form-control">
+                            
+                            <label for="szulido" class="form-label">Születési idő*</label>
+                            <input type="date" id="szulido" name="szulido" class="form-control">
+                            
+                            <label for="szulhely" class="form-label">Születési hely*</label>
+                            <input type="text" id="szulhely" name="szulhely" class="form-control">
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="anyjaneve" class="form-label">Anyja neve*</label>
+                            <input type="text" id="anyjaneve" name="anyjaneve" class="form-control">
+                            
+                            <label for="cim" class="form-label">Cím*</label>
+                            <input type="text" id="cim" name="cim" class="form-control">
+                            
+                            <label for="telefon" class="form-label">Telefon*</label>
+                            <input type="tel" id="telefon" name="telefon" class="form-control">
+                            
+                            <label for="email" class="form-label">E-mail*</label>
+                            <input type="email" id="email" name="email" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="tandij" id="tandij">
+                                <label for="tandij" class="form-check-label">Vállalom a tandíj befizetését.</label>
+                            </div>
+                            <p id="uzenet" class="text-danger mt-3"></p>
+                            <button type="button" id="jelentkezemGomb" class="btn btn-primary btn-lg my-3">Jelentkezem</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <p><strong>BKSZC Pogány Frigyes Technikum</strong><br>
+                        1183 Budapest, Thököly út 11.<br>
+                        Tel.: 1/290-0642</p>
+                </div>
+                <div class="col-md-6">
+                    <a href="#nullarol">Mindennapi internet</a><br>
+                    <a href="#mindennapi">Biztonságos internet</a><br>
+                    <a href="#biztonsagos">Biztonságos internet</a><br>
+                    <a href="#jelentkezes">Jelentkezés</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="container">
+        <div class="admin-login" id="bejelentkezes">
+            <label>Adminisztrátor jelszó: 
+                <input type="password" name="password" id="password">
+            </label>
+            <button type="button" id="login">Bejelentkezés</button>
+            <p id="uzenet2" class="text-danger">&nbsp;</p>
+        </div>
+    </div>
+
+    <script src="bootstrap.bundle.min.js"></script>
+    <script>
+const max = 8;
+let adatok;
+csoportok();
+
+async function csoportok() {
+    const url = 'http://localhost:5000/public/csoportok';
+    const tabla = document.getElementById("csoportok");
+    try {
+        const response = await fetch(url);
+        const json = await response.json();
+        if (!response.ok) {
+            throw new Error(`${response.status} ${json.message}`);
+        }
+        adatok = json;
+        tabla.innerHTML = "<tr><th>Azonosító</th><th>Képzés</th><th>Indulás</th>"
+            + "<th>Beosztás</th><th>Szabad hely</th><th>Ár (Ft)</th></tr>";
+        json.forEach(cs => {
+            tabla.innerHTML += "<tr><td>" + cs.csid + "</td><td>" + cs.knev
+                + "</td><td>" + cs.indulas + "</td><td>" + cs.beosztas
+                + "</td><td>" + (max - cs.letszam) + "</td><td>" + cs.ar.toLocaleString() + "</td></tr>"
+        });
+    } catch (err) {
+        console.error("Hiba a csoportok feldolgozása közben:", err.message);
+        tabla.innerHTML = `<tr><td colspan="6">Hiba történt a csoportok betöltésekor. Kérjük, próbálja újra később.</td></tr>`;
+    }
+}
+
+document.getElementById("jelentkezemGomb").onclick = async function (e) {
+    let valasz = ellenoriz();
+    const uzenetElem = document.getElementById("uzenet");
+    uzenetElem.innerHTML = valasz;
+    if (valasz) return;
+
+    const url = 'http://localhost:5000/public/jelentkezok';
+    const payload = {
+        "csid": document.getElementById("csid").value,
+        "jnev": document.getElementById("jnev").value,
+        "szulnev": document.getElementById("szulnev").value,
+        "szulido": document.getElementById("szulido").value,
+        "szulhely": document.getElementById("szulhely").value,
+        "anyjaneve": document.getElementById("anyjaneve").value,
+        "cim": document.getElementById("cim").value,
+        "telefon": document.getElementById("telefon").value,
+        "email": document.getElementById("email").value
+    };
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message)
+        }
+        uzenetElem.innerHTML = data.message;
+        document.getElementById("jelentkezemGomb").disabled = true;
+        csoportok();
+    } catch (err) {
+        console.error("Hiba jelentkezéskor:", err.message);
+        uzenetElem.innerHTML = err.message;
+    }
+};
+
+document.getElementById("login").onclick = async function (e) {
+    const url = 'http://localhost:5000/admin';
+    const uzenet2Elem = document.getElementById("uzenet2");
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                "password": document.getElementById("password").value,
+            })
+        });
+        const json = await response.json();
+        uzenet2Elem.innerHTML = json.message;
+        if (!response.ok) {
+            throw new Error(response.status);
+        }
+        document.getElementById("password").value = ""
+        sessionStorage.token = json.token
+        document.location.href = "csoportok.html"
+    } catch (err) {
+        console.error("Fetch hiba a bejelentkezésnél:", err.message);
+        uzenet2Elem.innerHTML = "Hibás jelszó!";
+    }
+};
+
+function ellenoriz() {
+    let nev = document.getElementById("jnev").value.trim();
+    if (nev.length < 5 || nev.length > 60)
+        return "Hibás név! (5-60 karakter lehet)"
+    let d = document.getElementById("szulido").value;
+    if (d == "") return "Add meg a születési időt!";
+    let szev = d.substring(0, 4);
+    let ev = new Date().getFullYear();
+    if (szev >= ev - 18 || szev <= ev - 65)
+        return "Hibás születési idő! (18-65 év közötti lehetsz)"
+    let hely = document.getElementById("szulhely").value.trim();
+    if (hely.length < 3 || hely.length > 60)
+        return "Hibás születési hely! (3-60 karakter lehet)"
+    let an = document.getElementById("anyjaneve").value.trim();
+    if (an.length < 5 || an.length > 60)
+        return "Anyja neve hibás! (5-60 karakter lehet)"
+    let cim = document.getElementById("cim").value.trim();
+    if (cim.length < 15 || cim.length > 80)
+        return "Hibás cím! (15-80 karakter lehet)"
+    let telefon = document.getElementById("telefon").value.trim();
+    if (telefon.length < 8 || telefon.length > 15)
+        return "Hibás telefonszám! (8-15 karakter lehet)"
+    if (!document.getElementById("tandij").checked) 
+        return "Kérjük, fogadja el a fizetési feltételt a pipa bejelölésével!";
+    return "";
+}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+body {
+    font-size: 100%;
+    background-color: rgb(192, 221, 211);
+}
+
+header {
+    background-image: url('img/cb.svg');
+}
+
+footer {
+    background-color: #3d3d3d;
+    color: white;
+    padding: 20px;
+}
+
+td,th {
+    text-align: center;
+}
